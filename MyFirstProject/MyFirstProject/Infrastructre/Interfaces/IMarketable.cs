@@ -10,5 +10,7 @@ namespace MyFirstProject.Infrastructre.Interfaces
     {
       List<Sale> sales { get; }
       List<Product> products { get; }
+        
+
     }
 }

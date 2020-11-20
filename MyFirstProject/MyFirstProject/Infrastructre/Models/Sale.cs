@@ -8,7 +8,7 @@ namespace MyFirstProject.Infrastructre.Models
     {
         public int SaleNumber { get; set; }
         public double Price { get; set; }
-        public SaleItem  SaleItem { get; set; }
+        public List<SaleItem>  SaleItem { get; set; }
 
         public DateTime Date { get; set; }
     }
