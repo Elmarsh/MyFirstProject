@@ -4,7 +4,10 @@ using System.Text;
 
 namespace MyFirstProject.Infrastructre.Models
 {
-    class SaleItems
+    public class SaleItem
     {
+        public int SaleItemNumber { get; set; }
+        public Product Product { get; set; }
+        public int Quantity { get; set; }
     }
 }

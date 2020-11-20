@@ -4,7 +4,8 @@ using System.Text;
 
 namespace MyFirstProject.Infrastructre.Enums
 {
-    class CategoryType
+   public enum CategoryType
     {
+
     }
 }

@@ -1,10 +1,14 @@
-﻿using System;
+﻿using MyFirstProject.Infrastructre.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace MyFirstProject.Infrastructre.Interfaces
 {
-    class IMarketable
+   public interface IMarketable
     {
+      List<Sale> sales { get; }
+      List<Product> products { get; }
     }
 }
