@@ -10,7 +10,12 @@ namespace MyFirstProject.Infrastructre.Interfaces
     {
       List<Sale> sales { get; }
       List<Product> products { get; }
-        
+
+
+      void AddSale(string productCode);
+      void  GetProductBySale(string name, int count);
+      void RemoveSale (int saleNumber);
+
 
     }
 }
