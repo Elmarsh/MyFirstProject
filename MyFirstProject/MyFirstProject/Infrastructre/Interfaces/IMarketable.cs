@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MyFirstProject.Infrastructre.Enums;
 
 
 namespace MyFirstProject.Infrastructre.Interfaces
@@ -12,9 +13,31 @@ namespace MyFirstProject.Infrastructre.Interfaces
       List<Product> products { get; }
 
 
-      void AddSale(string productCode);
-      void  GetProductBySale(string name, int count);
-      void RemoveSale (int saleNumber);
+      void AddSale(Sale sale);
+      void  ItemBack(int SaleNumber , int ItemNumber);
+      void SaleBack (int SaleNumber);
+      void BackSalesByDateRange(DateTime startDate, DateTime endDate);
+      void BackSalesByDate(DateTime Date);
+      void BackSalesByAmountRange(double stratAmount, double endAmount);
+      void BackSalesBySaleNumber(int saleNumber);
+      void AddProduct(Product product);
+      void BackItemsByCategoryName(CategoryType category);
+      void BackItemsByAmountRange(double starAmount, double endAmount);
+      void BackItemsByProductName(int ProductName); 
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
 
 
     }
