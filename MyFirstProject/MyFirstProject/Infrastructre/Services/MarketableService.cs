@@ -1,26 +1,34 @@
 ﻿using System;
-using MyFirstProject.Infrastructre.Interfaces;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using MyFirstProject.Infrastructre.Models;
 using MyFirstProject.Infrastructre.Enums;
+using MyFirstProject.Infrastructre.Interfaces;
+
 
 namespace MyFirstProject.Infrastructre.Services
+
 {
     public class MarketableService : IMarketable
     {
-        public List<Sale> sales => throw new NotImplementedException();
+        private  List<Sale> _sales;
+        public List<Sale> sales => _sales;
 
-        public List<Product> products => throw new NotImplementedException();
+
+        private  List<Product> _products;
+        public List<Product> products => _products;
+
+
 
         public void AddProduct(Product product)
         {
-            throw new NotImplementedException();
+            _products.Add(product);
         }
 
         public void AddSale(Sale sale)
         {
-            throw new NotImplementedException();
+            _sales.Add(sale);
         }
 
         public void ChangeProduct(string productCode, string productName, int productQuantity, double amount, CategoryType category)
@@ -30,12 +38,12 @@ namespace MyFirstProject.Infrastructre.Services
 
         public List<Product> GetProductByAmountRange(double starAmount, double endAmount)
         {
-            throw new NotImplementedException();
+           return _products.Where(p => p.ProductPrice > starAmount && p.ProductPrice < endAmount).ToList();
         }
 
         public List<Product> GetProductByCategoryName(CategoryType category)
         {
-            throw new NotImplementedException();
+           return _products.Where(p => p.Category == category).ToList();
         }
 
         public int GetProductBySale(int saleNumber, string productCode, int productQuantity)
@@ -65,7 +73,7 @@ namespace MyFirstProject.Infrastructre.Services
 
         public List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+            return _sales.Where(s => s.SaleDate > startDate && s.SaleDate < endDate).ToList();
         }
 
         public Sale GetSalesBySaleNumber(int saleNumber)

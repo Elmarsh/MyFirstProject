@@ -11,8 +11,6 @@ namespace MyFirstProject.Infrastructre.Interfaces
     {
       List<Sale> sales { get; }
       List<Product> products { get; }
-
-
       void AddSale(Sale sale);
       int  GetProductBySale(int saleNumber, string productCode, int productQuantity);
       List<Sale> GetSales();
