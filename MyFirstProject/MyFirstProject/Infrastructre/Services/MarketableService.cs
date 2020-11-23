@@ -28,12 +28,12 @@ namespace MyFirstProject.Infrastructre.Services
             throw new NotImplementedException();
         }
 
-        public List<Product> GetItemsByAmountRange(double starAmount, double endAmount)
+        public List<Product> GetProductByAmountRange(double starAmount, double endAmount)
         {
             throw new NotImplementedException();
         }
 
-        public List<Product> GetItemsByCategoryName(CategoryType category)
+        public List<Product> GetProductByCategoryName(CategoryType category)
         {
             throw new NotImplementedException();
         }
@@ -76,7 +76,7 @@ namespace MyFirstProject.Infrastructre.Services
         public List<Product> GetSearchByProductName(string productName)
         {
             throw new NotImplementedException();
-        }
+        } 
     }
 }
  

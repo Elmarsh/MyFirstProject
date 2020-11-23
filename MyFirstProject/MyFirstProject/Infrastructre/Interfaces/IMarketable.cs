@@ -23,8 +23,8 @@ namespace MyFirstProject.Infrastructre.Interfaces
       void AddProduct(Product product);
       void ChangeProduct(string productCode, string productName, int productQuantity, double amount, CategoryType category);
       List<Product> GetProducts(Product product);
-      List<Product> GetItemsByCategoryName(CategoryType category);
-      List<Product> GetItemsByAmountRange(double starAmount, double endAmount);
+      List<Product> GetProductByCategoryName(CategoryType category);
+      List<Product> GetProductByAmountRange(double starAmount, double endAmount);
       List<Product> GetSearchByProductName(string productName);
         
 
