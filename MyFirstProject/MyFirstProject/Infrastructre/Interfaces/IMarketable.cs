@@ -14,17 +14,19 @@ namespace MyFirstProject.Infrastructre.Interfaces
 
 
       void AddSale(Sale sale);
-      void  GetProductBySale(string Name , int Count);
+      int  GetProductBySale(int saleNumber, string productCode, int productQuantity);
       List<Sale> GetSales();
-      void GetSalesByDateRange(DateTime startDate, DateTime endDate);
-      void GetSalesByDate(DateTime Date);
-      void GetSalesByAmountRange(double stratAmount, double endAmount);
-      void GetSalesBySaleNumber(int saleNumber);
+      List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate);
+      List<Sale> GetSalesByDate(DateTime Date);
+      List<Sale> GetSalesByAmountRange(double stratAmount, double endAmount);
+      Sale GetSalesBySaleNumber(int saleNumber);
       void AddProduct(Product product);
-      void ChangeProduct(int productCode);
-      void GetItemsByCategoryName(CategoryType category);
-      void GetItemsByAmountRange(double starAmount, double endAmount);
-      void GetItemsByProductName(int productName);  
+      void ChangeProduct(string productCode, string productName, int productQuantity, double amount, CategoryType category);
+      List<Product> GetProducts(Product product);
+      List<Product> GetItemsByCategoryName(CategoryType category);
+      List<Product> GetItemsByAmountRange(double starAmount, double endAmount);
+      List<Product> GetSearchByProductName(string productName);
+        
 
 
 
