@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Text;
+using ConsoleTables;
+using MyFirstProject.Infrastructre.Models;
+using MyFirstProject.Infrastructre.Services;
+using MyFirstProject.Infrastructre.Enums;
 namespace MyFirstProject
 {
     class Program
     {
+        private static MarketableService _marketableService = new MarketableService();
         static void Main(string[] args)
         {
+            
             Console.OutputEncoding = Encoding.UTF8;
             
             int selectInt;
@@ -86,7 +92,7 @@ namespace MyFirstProject
                     case 0:
                         continue;
                     case 1:
-                        Console.WriteLine("Add Product");
+                        ShowProductAdd();
                         break;
                     case 2:
                         Console.WriteLine("Edit Product");
@@ -95,7 +101,7 @@ namespace MyFirstProject
                         Console.WriteLine("Remove Product");
                         break;
                     case 4:
-                        Console.WriteLine("List Product");
+                        ShowProductList();
                         break;
                     case 5:
                         Console.WriteLine("List  product By Catogory Name");
@@ -188,9 +194,117 @@ namespace MyFirstProject
             } while (selectInt2 != 0);
         } 
 
-        public void ShowAddProduct()
+        static void ShowProductAdd()
         {
-             
-        } 
+            Console.WriteLine("~~~~~~~~~~~~  Yeni Mehsul elave et  ~~~~~~~~~~~~");
+            Product product = new Product();
+
+            #region Product Category
+
+            int selectInt;
+            do
+            {
+                #region Product kategory Menu
+
+                Console.WriteLine("~~~~~~~~kategoriya daxil edin~~~~~~~~");
+
+                Console.WriteLine("1. Televizor");
+                Console.WriteLine("2. Computer");
+                Console.WriteLine("3. Phone");
+                #endregion
+
+                #region Product kategory Selection
+                Console.WriteLine("");
+
+                Console.WriteLine("Seçiminizi Edin:");
+
+                string select = Console.ReadLine();
+                while (!int.TryParse(select, out selectInt))
+                {
+                    Console.WriteLine("Reqem daxil etmelisiniz!");
+                    select = Console.ReadLine();
+                }
+                #endregion
+
+                #region Product kategory Switch
+
+                switch (selectInt)
+                {
+                    case 1:
+                        product.Category = CategoryType.Televizor;
+                        break;
+                    case 2:
+                        product.Category = CategoryType.Computer;
+                        break;
+                    case 3:
+                        product.Category = CategoryType.Phone;
+                        break;
+                    default:
+                        Console.WriteLine("------------------------");
+                        Console.WriteLine("Siz yalniş secim etdiniz, 1-3 araliğinda seçim etməlisiniz");
+                        Console.WriteLine("------------------------");
+                        break;
+                }
+
+
+
+            } while (selectInt==0);
+            #endregion
+
+            #endregion
+
+            #region Product Name
+            Console.WriteLine("Mehsul adi daxil edin");
+            product.ProductName = Console.ReadLine();
+            #endregion
+
+            
+
+            #region product Quantity
+            Console.WriteLine("Mehsulun sayi daxil edin");
+            string productQuantityInput = Console.ReadLine();
+            
+            int ProductQuantity;
+            while(!int.TryParse(productQuantityInput, out ProductQuantity)) 
+                {
+                Console.WriteLine("Reqem daxil edin");
+                productQuantityInput = Console.ReadLine();
+            }
+            product.ProductQuantity = ProductQuantity;
+            #endregion
+
+            #region Price
+            Console.WriteLine("Mehsulun meblegi daxil edin");
+            string productPriceInput = Console.ReadLine();
+
+            double ProductPrice;
+            while(!double.TryParse(productPriceInput, out ProductPrice))
+            {
+                Console.WriteLine("Satis meblegi daxil edin");
+                productPriceInput = Console.ReadLine();
+            }
+            product.ProductPrice = ProductPrice;
+            #endregion
+
+            #region Product code
+            Console.WriteLine("Mehsulun kodu daxil edin");
+            product.ProductCode = Console.ReadLine();
+           
+            #endregion
+        }
+
+
+
+        static void ShowProductList()
+        {
+            Console.WriteLine("~~~~~~~~~~~~  Movcud Mehsullar  ~~~~~~~~~~~~");
+            var table = new ConsoleTable("No", "Kategoriya", "Mehsul", "Sayi", "Qiymeti", "Mehsul kodu");
+            int i = 1;
+            foreach (var item in _marketableService.products)
+            {
+                table.AddRow(i, item.Category, item.ProductName, item.ProductQuantity, item.ProductPrice, item.ProductCode);
+            }
+            table.Write();
+        }
     }
 }

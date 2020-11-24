@@ -21,6 +21,7 @@ namespace MyFirstProject.Infrastructre.Services
         public MarketableService()
         {
             _products = new List<Product>();
+
         }
 
         public void AddProduct(Product product)

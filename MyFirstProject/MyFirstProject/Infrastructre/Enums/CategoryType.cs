@@ -6,6 +6,8 @@ namespace MyFirstProject.Infrastructre.Enums
 {
    public enum CategoryType
     {
-
+        Televizor,
+        Computer,
+        Phone
     }
 }

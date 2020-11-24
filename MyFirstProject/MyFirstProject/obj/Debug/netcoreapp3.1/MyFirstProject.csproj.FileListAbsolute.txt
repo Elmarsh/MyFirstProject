@@ -4,10 +4,12 @@ C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\bin\D
 C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\MyFirstProject.runtimeconfig.dev.json
 C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\MyFirstProject.dll
 C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\MyFirstProject.pdb
+C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\bin\Debug\netcoreapp3.1\ConsoleTables.dll
 C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.csprojAssemblyReference.cache
 C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.AssemblyInfoInputs.cache
 C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.AssemblyInfo.cs
 C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.csproj.CoreCompileInputs.cache
+C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.csproj.CopyComplete
 C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.dll
 C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.pdb
 C:\Users\Code Academy\Desktop\MyFirstProject\MyFirstProject\MyFirstProject\obj\Debug\netcoreapp3.1\MyFirstProject.genruntimeconfig.cache
