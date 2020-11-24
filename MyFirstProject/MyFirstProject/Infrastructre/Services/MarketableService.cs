@@ -12,14 +12,16 @@ namespace MyFirstProject.Infrastructre.Services
 {
     public class MarketableService : IMarketable
     {
-        private  List<Sale> _sales;
+        private readonly  List<Sale> _sales;
         public List<Sale> sales => _sales;
 
-
-        private  List<Product> _products;
+        private readonly List<Product> _products;
         public List<Product> products => _products;
 
-
+        public MarketableService()
+        {
+            _products = new List<Product>();
+        }
 
         public void AddProduct(Product product)
         {
@@ -36,10 +38,7 @@ namespace MyFirstProject.Infrastructre.Services
             throw new NotImplementedException();
         }
 
-        public List<Product> GetProductByAmountRange(double starAmount, double endAmount)
-        {
-           return _products.Where(p => p.ProductPrice > starAmount && p.ProductPrice < endAmount).ToList();
-        }
+      
 
         public List<Product> GetProductByCategoryName(CategoryType category)
         {
@@ -63,12 +62,12 @@ namespace MyFirstProject.Infrastructre.Services
 
         public List<Sale> GetSalesByAmountRange(double stratAmount, double endAmount)
         {
-            throw new NotImplementedException();
+            return _sales.Where(s => s.SaleAmount > stratAmount && s.SaleAmount < endAmount).ToList();
         }
 
         public List<Sale> GetSalesByDate(DateTime Date)
         {
-            throw new NotImplementedException();
+           return _sales.Where(s => s.SaleDate == Date).ToList();
         }
 
         public List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate)
@@ -83,8 +82,22 @@ namespace MyFirstProject.Infrastructre.Services
 
         public List<Product> GetSearchByProductName(string productName)
         {
+           return _products.Where(p => p.ProductName.Contains(productName)).ToList();
+        }
+
+        double IMarketable.GetSalesByAmountRange(double stratAmount, double endAmount)
+        {
+            Product product = new Product();
+            Sale sale = new Sale();
+
+            sale.SaleAmount = product.ProductPrice * product.ProductQuantity;
+            return _sales.Where(s => s.SaleAmount >= stratAmount && s.SaleAmount <= endAmount).Sum(s=>s.SaleAmount);
+        }
+
+        public List<Product> GetProductByAmountRange(double starAmount, double endAmount)
+        {
             throw new NotImplementedException();
-        } 
+        }
     }
 }
  

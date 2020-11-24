@@ -16,7 +16,7 @@ namespace MyFirstProject.Infrastructre.Interfaces
       List<Sale> GetSales();
       List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate);
       List<Sale> GetSalesByDate(DateTime Date);
-      List<Sale> GetSalesByAmountRange(double stratAmount, double endAmount);
+      double GetSalesByAmountRange(double stratAmount, double endAmount);
       Sale GetSalesBySaleNumber(int saleNumber);
       void AddProduct(Product product);
       void ChangeProduct(string productCode, string productName, int productQuantity, double amount, CategoryType category);
@@ -24,22 +24,6 @@ namespace MyFirstProject.Infrastructre.Interfaces
       List<Product> GetProductByCategoryName(CategoryType category);
       List<Product> GetProductByAmountRange(double starAmount, double endAmount);
       List<Product> GetSearchByProductName(string productName);
-        
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
 
     }
 }

@@ -187,5 +187,10 @@ namespace MyFirstProject
 
             } while (selectInt2 != 0);
         } 
+
+        public void ShowAddProduct()
+        {
+             
+        } 
     }
 }
