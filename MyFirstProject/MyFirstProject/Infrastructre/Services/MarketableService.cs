@@ -21,7 +21,24 @@ namespace MyFirstProject.Infrastructre.Services
         public MarketableService()
         {
             _products = new List<Product>();
+            _products.Add(new Product
+            {
+                ProductName = "Tissot T116.617.36.097.00 Erkek Kol Saati",
+                ProductQuantity = 1,
+                ProductPrice = 200,
+                ProductCode = "0002",
+                Category = CategoryType.Saat
+            });
 
+            _products.Add(new Product
+            {
+                ProductName = "8K HDR 75 Smart TV Samsung QE75Q900RBUXRU",
+                ProductQuantity = 1,
+                ProductPrice = 800,
+                ProductCode = "0003",
+                Category = CategoryType.Televizor
+
+            });
         }
 
         public void AddProduct(Product product)
@@ -34,9 +51,9 @@ namespace MyFirstProject.Infrastructre.Services
             _sales.Add(sale);
         }
 
-        public void ChangeProduct(string productCode, string productName, int productQuantity, double amount, CategoryType category)
+        public List<Product> ChangeProduct(string productCode)
         {
-            throw new NotImplementedException();
+            return _products.FindAll(p => p.ProductCode == productCode).ToList();
         }
 
       

@@ -19,7 +19,7 @@ namespace MyFirstProject.Infrastructre.Interfaces
       double GetSalesByAmountRange(double stratAmount, double endAmount);
       Sale GetSalesBySaleNumber(int saleNumber);
       void AddProduct(Product product);
-      void ChangeProduct(string productCode, string productName, int productQuantity, double amount, CategoryType category);
+      List<Product> ChangeProduct(string productCode);
       List<Product> GetProducts(Product product);
       List<Product> GetProductByCategoryName(CategoryType category);
       List<Product> GetProductByAmountRange(double starAmount, double endAmount);

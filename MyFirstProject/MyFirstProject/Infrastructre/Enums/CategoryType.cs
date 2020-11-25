@@ -8,6 +8,7 @@ namespace MyFirstProject.Infrastructre.Enums
     {
         Televizor,
         Computer,
-        Phone
+        Phone,
+        Saat
     }
 }
