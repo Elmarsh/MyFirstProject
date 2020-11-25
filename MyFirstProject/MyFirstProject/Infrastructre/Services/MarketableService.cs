@@ -100,7 +100,8 @@ namespace MyFirstProject.Infrastructre.Services
 
         public List<Product> GetSearchByProductName(string productName)
         {
-           return _products.Where(p => p.ProductName.Contains(productName)).ToList();
+
+            return _products.FindAll(p => p.ProductName == productName);
         }
 
         double IMarketable.GetSalesByAmountRange(double stratAmount, double endAmount)
@@ -114,7 +115,14 @@ namespace MyFirstProject.Infrastructre.Services
 
         public List<Product> GetProductByAmountRange(double starAmount, double endAmount)
         {
-            throw new NotImplementedException();
+            return _products.Where(p => p.ProductPrice > starAmount && p.ProductPrice < endAmount).ToList();
+        }
+
+        public void RemoveProduct(string productCode)
+        {
+            var resultlist = _products.ToList();
+            var itemRemove = resultlist.Single(r => r.ProductCode == productCode);
+            _products.Remove(itemRemove);
         }
     }
 }

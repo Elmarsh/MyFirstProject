@@ -24,6 +24,7 @@ namespace MyFirstProject.Infrastructre.Interfaces
       List<Product> GetProductByCategoryName(CategoryType category);
       List<Product> GetProductByAmountRange(double starAmount, double endAmount);
       List<Product> GetSearchByProductName(string productName);
+      void RemoveProduct(string ProductCode);
 
     }
 }

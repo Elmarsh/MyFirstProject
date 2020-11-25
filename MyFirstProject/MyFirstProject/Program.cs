@@ -100,7 +100,7 @@ namespace MyFirstProject
                         ShowProductChange();
                         break;
                     case 3:
-                        Console.WriteLine("Remove Product");
+                        ShowRemoveProduct();
                         break;
                     case 4:
                         ShowProductList();
@@ -109,10 +109,10 @@ namespace MyFirstProject
                         Console.WriteLine("List  product By Catogory Name");
                         break;
                     case 6:
-                        Console.WriteLine("List Product By Amount Range");
+                        ShowProductAmountRange();
                         break;
                     case 7:
-                        Console.WriteLine("Search By Product Name");
+                        ShowSearchProductName();
                         break;
                     default:
 
@@ -120,8 +120,6 @@ namespace MyFirstProject
                         Console.WriteLine("siz yalniş secim etdiniz, 0-7 arasinda secim edə bilərsiniz");
                         Console.WriteLine("----------------------------");
                         break;
-
-
                 }
                 #endregion
 
@@ -298,12 +296,7 @@ namespace MyFirstProject
             product.ProductCode = Console.ReadLine();
 
             _marketableService.AddProduct(product);
-
-
-            
-            #endregion
-
-            
+            #endregion  
         }
 
         static void ShowProductChange()
@@ -397,6 +390,7 @@ namespace MyFirstProject
 
 
             #endregion
+
             foreach (var item in ProductChangeCode)
             {
                 item.Category = (CategoryType)selectInt;
@@ -412,10 +406,20 @@ namespace MyFirstProject
                 Console.WriteLine("~~~~~~~~~~~~~~~~~~~");
             }
 
-          
         }
 
+        static void ShowRemoveProduct()
+        {
+            Console.WriteLine("Leğv etmek istediyiniz mehsulun kodu daxil edin");
+            Console.WriteLine("");
 
+            string Productcode = Console.ReadLine();
+            _marketableService.RemoveProduct(Productcode);
+
+            Console.WriteLine("~~~~~~~~~~~~~~~~");
+            Console.WriteLine("Mehsul Leğv olundu!");
+            Console.WriteLine("~~~~~~~~~~~~~~~~");
+        }
 
         static void ShowProductList()
         {
@@ -429,5 +433,82 @@ namespace MyFirstProject
             }
             table.Write();
         }
+
+
+        //static void ShowProductCategoryName()
+        //{
+
+
+        //}
+
+       
+        static void ShowProductAmountRange()    //arlaigda
+        {
+            Console.WriteLine("~~~~~~~~~~ Qiymət araliğinda satişlar ~~~~~~~~~~ ");
+            Console.WriteLine("");
+            #region Start Amount
+            Console.WriteLine("Başlanğic qiymeti daxil edin");
+            string startAmountInput = Console.ReadLine();
+            double startAmount;
+
+            while(!double.TryParse(startAmountInput, out startAmount))
+            {
+                Console.WriteLine("Rəqəm daxil edin");
+                startAmountInput = Console.ReadLine();
+            }
+            #endregion
+
+            #region End Amount
+            
+            Console.WriteLine("Son qiyməti daxil edin");
+            string endAmountInput = Console.ReadLine();
+            double endAmount;
+
+            while(!double.TryParse(endAmountInput, out endAmount))
+            {
+                Console.WriteLine("Rəqem daxil edin");
+                endAmountInput = Console.ReadLine();
+            }
+            #endregion
+
+            List<Product> products = _marketableService.GetProductByAmountRange(startAmount, endAmount);
+
+            foreach (var item in products)
+            {
+                if (products != null)
+                {
+                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    Console.WriteLine(item.Category + " " + item.ProductName + " " + item.ProductQuantity + " " + item.ProductPrice + " " + item.ProductCode);
+                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                }
+            }
+        }
+
+        static void ShowSearchProductName()             /*olmasa*/
+        {
+            Console.WriteLine("Məhsulun adina görə göstərilməsi");
+            Console.WriteLine("");
+            string productName = Console.ReadLine();
+
+            List<Product> products = _marketableService.GetSearchByProductName(productName);
+
+            foreach (var item in products)
+            {
+                if (products != null)
+                {
+                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~");
+                    Console.WriteLine("");
+                    Console.WriteLine(item.Category + " " + item.ProductName + " " + item.ProductQuantity + " " + item.ProductPrice + " " + item.ProductCode);
+                    Console.WriteLine("");
+                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~");
+                }
+            }
+
+            
+
+        }
+
+
+
     }
 }
