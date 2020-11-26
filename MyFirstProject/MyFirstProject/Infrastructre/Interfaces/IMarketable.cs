@@ -21,7 +21,7 @@ namespace MyFirstProject.Infrastructre.Interfaces
       void AddProduct(Product product);
       List<Product> ChangeProduct(string productCode);
       List<Product> GetProducts(Product product);
-      List<Product> GetProductByCategoryName(CategoryType category);
+      void GetProductByCategoryName(CategoryType category);
       List<Product> GetProductByAmountRange(double starAmount, double endAmount);
       List<Product> GetSearchByProductName(string productName);
       void RemoveProduct(string ProductCode);

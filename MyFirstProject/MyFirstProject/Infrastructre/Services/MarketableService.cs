@@ -23,8 +23,8 @@ namespace MyFirstProject.Infrastructre.Services
             _products = new List<Product>();
             _products.Add(new Product
             {
-                ProductName = "Tissot T116.617.36.097.00 Erkek Kol Saati",
-                ProductQuantity = 1,
+                ProductName = "Tissot",
+                ProductQuantity = 2,
                 ProductPrice = 200,
                 ProductCode = "0002",
                 Category = CategoryType.Saat
@@ -32,13 +32,63 @@ namespace MyFirstProject.Infrastructre.Services
 
             _products.Add(new Product
             {
-                ProductName = "8K HDR 75 Smart TV Samsung QE75Q900RBUXRU",
+                ProductName = "SmartTVSamsung",
                 ProductQuantity = 1,
                 ProductPrice = 800,
                 ProductCode = "0003",
                 Category = CategoryType.Televizor
 
             });
+
+
+            _sales = new List<Sale>();
+            _sales.Add(new Sale
+            {
+                SaleNumber = 1,
+                SaleAmount = 12.5,
+                SaleDate = new DateTime(2020,09,25),
+                SaleItem=new List<SaleItem>()
+                {
+                    new SaleItem
+                    {
+                       SaleItemNumber = 1,
+                       SaleCount=2,
+                       SaleProduct=new Product
+                       {
+                            ProductName = "LenovoIdeaPadS150",
+                            ProductQuantity = 1,
+                            ProductPrice = 1500,
+                            ProductCode = "0077",
+                            Category = CategoryType.Computer
+                       }
+                    }
+                }
+                
+            });
+
+            _sales.Add(new Sale
+            {
+                SaleNumber = 2,
+                SaleAmount = 24.5,
+                SaleDate = new DateTime(2020, 11, 25),
+                SaleItem = new List<SaleItem>()
+                {
+                    new SaleItem
+                    {
+                       SaleItemNumber =4 ,
+                       SaleCount=5,
+                       SaleProduct=new Product
+                       {
+                            ProductName = "Samsung Galaxy S20 FE 5G",
+                            ProductQuantity = 1,
+                            ProductPrice = 700,
+                            ProductCode = "0088",
+                            Category = CategoryType.Phone
+                       }
+                    }
+                }
+            });
+
         }
 
         public void AddProduct(Product product)
@@ -58,9 +108,20 @@ namespace MyFirstProject.Infrastructre.Services
 
       
 
-        public List<Product> GetProductByCategoryName(CategoryType category)
+        public void GetProductByCategoryName(CategoryType category)
         {
-           return _products.Where(p => p.Category == category).ToList();
+
+            List<Product> list = _products.FindAll(p => p.Category ==category).ToList();
+
+            foreach (var item in list)
+            {
+                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~");
+                Console.WriteLine("adı: " + item.ProductName);
+                Console.WriteLine("Kategoriyasi: " + item.Category);
+                Console.WriteLine("Sayi: " + item.ProductQuantity);
+                Console.WriteLine("Kodu: " + item.ProductCode);
+                Console.WriteLine("Qiyməti: " + item.ProductPrice);
+            }
         }
 
         public int GetProductBySale(int saleNumber, string productCode, int productQuantity)
@@ -101,7 +162,8 @@ namespace MyFirstProject.Infrastructre.Services
         public List<Product> GetSearchByProductName(string productName)
         {
 
-            return _products.FindAll(p => p.ProductName == productName);
+             return _products.FindAll(p => p.ProductName.Contains(productName)).ToList();
+           
         }
 
         double IMarketable.GetSalesByAmountRange(double stratAmount, double endAmount)

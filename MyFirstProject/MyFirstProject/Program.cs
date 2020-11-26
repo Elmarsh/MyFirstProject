@@ -106,7 +106,7 @@ namespace MyFirstProject
                         ShowProductList();
                         break;
                     case 5:
-                        Console.WriteLine("List  product By Catogory Name");
+                        ShowProductCategoryName();
                         break;
                     case 6:
                         ShowProductAmountRange();
@@ -169,7 +169,7 @@ namespace MyFirstProject
                         Console.WriteLine("Remove Sale");
                         break;
                     case 4:
-                        Console.WriteLine("List Sale");
+                        ShowSaleList();
                         break;
                     case 5:
                         Console.WriteLine("Sale By Date Range");
@@ -435,14 +435,73 @@ namespace MyFirstProject
         }
 
 
-        //static void ShowProductCategoryName()
-        //{
+        static void ShowProductCategoryName()   /* olmasa*/ 
+        {
+            Console.WriteLine("Kategoriyasina gore mehsulu gostermek");
+
+            Product product = new Product();
 
 
-        //}
+            int selectInt;
+            do
+            {
+                #region Product kategory Menu
 
-       
-        static void ShowProductAmountRange()    //arlaigda
+                Console.WriteLine("~~~~~~~~kategoriya daxil edin~~~~~~~~");
+
+                Console.WriteLine("0. Televizor");
+                Console.WriteLine("1. Computer");
+                Console.WriteLine("2. Phone");
+                Console.WriteLine("3. Saat");
+                #endregion
+
+                #region Product kategory Selection
+                Console.WriteLine("");
+
+                Console.WriteLine("Seçiminizi Edin:");
+
+                string select = Console.ReadLine();
+                while (!int.TryParse(select, out selectInt))
+                {
+                    Console.WriteLine("Reqem daxil etmelisiniz!");
+                    select = Console.ReadLine();
+                }
+                #endregion
+
+                #region Product kategory Switch
+
+                switch (selectInt)
+                {
+                    case 0:
+                        product.Category = CategoryType.Televizor;
+                        break;
+                    case 1:
+                        product.Category = CategoryType.Computer;
+                        break;
+                    case 2:
+                        product.Category = CategoryType.Phone;
+                        break;
+                    case 3:
+                        product.Category = CategoryType.Saat;
+                        break;
+                    default:
+                        Console.WriteLine("------------------------");
+                        Console.WriteLine("Siz yalniş secim etdiniz, 0-3 araliğinda seçim etməlisiniz");
+                        Console.WriteLine("------------------------");
+                        break;
+                }
+
+
+
+            } while (selectInt == -1);
+
+            _marketableService.GetProductByCategoryName((CategoryType)selectInt);
+            #endregion
+
+        }
+
+
+        static void ShowProductAmountRange()    //olmasa
         {
             Console.WriteLine("~~~~~~~~~~ Qiymət araliğinda satişlar ~~~~~~~~~~ ");
             Console.WriteLine("");
@@ -478,15 +537,21 @@ namespace MyFirstProject
                 if (products != null)
                 {
                     Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                    Console.WriteLine(item.Category + " " + item.ProductName + " " + item.ProductQuantity + " " + item.ProductPrice + " " + item.ProductCode);
+                    Console.WriteLine("adı: " + item.ProductName);
+                    Console.WriteLine("Kategoriyasi: " + item.Category);
+                    Console.WriteLine("Sayi: " + item.ProductQuantity);
+                    Console.WriteLine("Kodu: " + item.ProductCode);
+                    Console.WriteLine("Qiyməti: " + item.ProductPrice);
                     Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 }
             }
         }
 
-        static void ShowSearchProductName()             /*olmasa*/
+        static void ShowSearchProductName()      /*olmasa*/
         {
             Console.WriteLine("Məhsulun adina görə göstərilməsi");
+            Console.WriteLine("");
+            Console.WriteLine("Mehsulun adi daxil edin");
             Console.WriteLine("");
             string productName = Console.ReadLine();
 
@@ -498,15 +563,35 @@ namespace MyFirstProject
                 {
                     Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~");
                     Console.WriteLine("");
-                    Console.WriteLine(item.Category + " " + item.ProductName + " " + item.ProductQuantity + " " + item.ProductPrice + " " + item.ProductCode);
-                    Console.WriteLine("");
+                    Console.WriteLine("adı: "+ item.ProductName);
+                    Console.WriteLine("Kategoriyasi: " + item.Category);
+                    Console.WriteLine("Sayi: " + item.ProductQuantity);
+                    Console.WriteLine("Kodu: " + item.ProductCode);
+                    Console.WriteLine("Qiyməti: " + item.ProductPrice);
                     Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~");
                 }
             }
 
-            
-
         }
+
+
+
+
+
+        static void ShowSaleList()
+        {
+            Console.WriteLine("~~~~~~~~~~~~  Movcud Satishlar  ~~~~~~~~~~~~");
+            var table = new ConsoleTable("No", "Nomresi", "Qiymeti", "Mehsul Sayi", "Tarixi");
+            int i = 1;
+            foreach (var item in _marketableService.sales)
+            {
+                table.AddRow(i, item.SaleNumber, item.SaleAmount, item.SaleItem.Count, item.SaleDate.ToString("dd.MM.yyyy"));
+                i++;
+            }
+            table.Write();
+        }
+
+
 
 
 
