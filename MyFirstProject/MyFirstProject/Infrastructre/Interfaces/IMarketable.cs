@@ -12,6 +12,8 @@ namespace MyFirstProject.Infrastructre.Interfaces
       List<Sale> Sales { get; }
       List<Product> Products { get; }
       List<SaleItem> SaleItems { get; }
+
+
       void AddSale(Sale sale);
       void RemoveSale(int saleNumber);
       int  RemoveProductBySale(int saleNumber, string productCode, int productQuantity);

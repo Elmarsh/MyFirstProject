@@ -160,7 +160,7 @@ namespace MyFirstProject
                     case 0:
                         continue;
                     case 1:
-                        Console.WriteLine("Add Sale");
+                        ShowAddSale();
                         break;
                     case 2:
                         Console.WriteLine("Get Product By Sale");
@@ -580,6 +580,32 @@ namespace MyFirstProject
         #endregion
 
 
+
+        static void ShowAddSale()
+        {
+            Console.WriteLine("~~~~~~~~~~~~  Yeni satiş əlave et  ~~~~~~~~~~~~");
+           
+            #region Sale Number
+            Sale sale = new Sale();
+            Console.WriteLine("");
+
+            Console.WriteLine("Məhsulun nömrəsini daxil edin :");
+            string saleNumberInput = Console.ReadLine();
+            int saleNumber;
+
+            while(!int.TryParse(saleNumberInput, out saleNumber))
+            {
+                Console.WriteLine("Rəqəm daxil edin");
+                saleNumberInput = Console.ReadLine();
+            }
+            sale.SaleNumber = saleNumber;
+            #endregion
+
+
+             
+        }
+
+
         static void ShowRemoveSale()  /* olmasa*/
         {
             Console.WriteLine("~~~~~~~~~ Ləğv etmək üçün satiş nömrəsi daxil edin ~~~~~~~~~");
@@ -747,7 +773,7 @@ namespace MyFirstProject
 
         }
 
-        static void ShowSalesBySaleNumber()
+        static void ShowSalesBySaleNumber()    /*olmasa*/
         {
             Console.WriteLine("~~~~~~~~~~ Satiş nömreəsine göre satişi görmek ~~~~~~~~~~ ");
             Console.WriteLine("");
@@ -770,7 +796,7 @@ namespace MyFirstProject
 
             foreach (var item in sales)
             {
-                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~");
+                Console.WriteLine("_____________________________");
                 Console.WriteLine("Satişin Nömresi: " + item.SaleNumber + " " + "Satişin qiyməti: " + item.SaleAmount + " " + "Mehsul sayı: " + item.SaleItem.Count + "tarixi: " + item.SaleDate.ToString("dd.MM.yyyy"));
                 Console.WriteLine("");
             }
@@ -780,9 +806,10 @@ namespace MyFirstProject
             foreach (var item in list)
             {
                 Console.WriteLine("Sayi: " + item.SaleCount + " " + "İtem Nömrəsi: " + item.SaleItemNumber + " " + "Məhsulun Adı: " + item.SaleProduct.ProductName);
-                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~");
+                Console.WriteLine("_____________________________");
             }
         }
+
 
 
 
