@@ -12,11 +12,12 @@ namespace MyFirstProject.Infrastructre.Interfaces
       List<Sale> sales { get; }
       List<Product> products { get; }
       void AddSale(Sale sale);
+      void RemoveSale(int saleNumber);
       int  GetProductBySale(int saleNumber, string productCode, int productQuantity);
       List<Sale> GetSales();
       List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate);
       List<Sale> GetSalesByDate(DateTime Date);
-      double GetSalesByAmountRange(double stratAmount, double endAmount);
+      List<Sale> GetSalesByAmountRange(double stratAmount, double endAmount);
       Sale GetSalesBySaleNumber(int saleNumber);
       void AddProduct(Product product);
       List<Product> ChangeProduct(string productCode);

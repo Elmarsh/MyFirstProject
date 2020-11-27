@@ -5,6 +5,7 @@ using System.Text;
 using MyFirstProject.Infrastructre.Models;
 using MyFirstProject.Infrastructre.Enums;
 using MyFirstProject.Infrastructre.Interfaces;
+using ConsoleTables;
 
 
 namespace MyFirstProject.Infrastructre.Services
@@ -51,7 +52,7 @@ namespace MyFirstProject.Infrastructre.Services
                 {
                     new SaleItem
                     {
-                       SaleItemNumber = 1,
+                       SaleItemNumber = 2,
                        SaleCount=2,
                        SaleProduct=new Product
                        {
@@ -113,15 +114,24 @@ namespace MyFirstProject.Infrastructre.Services
 
             List<Product> list = _products.FindAll(p => p.Category ==category).ToList();
 
+
+            var table = new ConsoleTable("No", "Kategoriya", "Mehsul", "Sayi", "Qiymeti", "Mehsul kodu");
+            int i = 1;
             foreach (var item in list)
             {
-                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~");
-                Console.WriteLine("adı: " + item.ProductName);
-                Console.WriteLine("Kategoriyasi: " + item.Category);
-                Console.WriteLine("Sayi: " + item.ProductQuantity);
-                Console.WriteLine("Kodu: " + item.ProductCode);
-                Console.WriteLine("Qiyməti: " + item.ProductPrice);
+                table.AddRow(i, item.Category, item.ProductName, item.ProductQuantity, item.ProductPrice, item.ProductCode);
+                i++;
             }
+            table.Write();
+
+            //Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~");
+            //Console.WriteLine("adı: " + item.ProductName);
+            //Console.WriteLine("Kategoriyasi: " + item.Category);
+            //Console.WriteLine("Sayi: " + item.ProductQuantity);
+            //Console.WriteLine("Kodu: " + item.ProductCode);
+            //Console.WriteLine("Qiyməti: " + item.ProductPrice);
+            //Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~");
+            //}
         }
 
         public int GetProductBySale(int saleNumber, string productCode, int productQuantity)
@@ -138,10 +148,10 @@ namespace MyFirstProject.Infrastructre.Services
         {
             throw new NotImplementedException();
         }
-
-        public List<Sale> GetSalesByAmountRange(double stratAmount, double endAmount)
+        
+        public List<Sale> GetSalesByAmountRange(double startAmount, double endAmount)
         {
-            return _sales.Where(s => s.SaleAmount > stratAmount && s.SaleAmount < endAmount).ToList();
+            return _sales.Where(s => s.SaleAmount > startAmount && s.SaleAmount < endAmount).ToList();
         }
 
         public List<Sale> GetSalesByDate(DateTime Date)
@@ -152,6 +162,8 @@ namespace MyFirstProject.Infrastructre.Services
         public List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate)
         {
             return _sales.Where(s => s.SaleDate > startDate && s.SaleDate < endDate).ToList();
+
+
         }
 
         public Sale GetSalesBySaleNumber(int saleNumber)
@@ -166,15 +178,7 @@ namespace MyFirstProject.Infrastructre.Services
            
         }
 
-        double IMarketable.GetSalesByAmountRange(double stratAmount, double endAmount)
-        {
-            Product product = new Product();
-            Sale sale = new Sale();
-
-            sale.SaleAmount = product.ProductPrice * product.ProductQuantity;
-            return _sales.Where(s => s.SaleAmount >= stratAmount && s.SaleAmount <= endAmount).Sum(s=>s.SaleAmount);
-        }
-
+      
         public List<Product> GetProductByAmountRange(double starAmount, double endAmount)
         {
             return _products.Where(p => p.ProductPrice > starAmount && p.ProductPrice < endAmount).ToList();
@@ -186,6 +190,14 @@ namespace MyFirstProject.Infrastructre.Services
             var itemRemove = resultlist.Single(r => r.ProductCode == productCode);
             _products.Remove(itemRemove);
         }
+
+        public void RemoveSale(int saleNumber)
+        {
+           Sale sale= _sales.Find(s => s.SaleNumber == saleNumber);
+            _sales.Remove(sale);
+        }
+
+        
     }
 }
  
