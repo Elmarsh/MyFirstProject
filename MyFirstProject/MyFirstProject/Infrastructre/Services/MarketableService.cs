@@ -52,13 +52,13 @@ namespace MyFirstProject.Infrastructre.Services
             {
                 new SaleItem
                 {
-                    SaleItemNumber = 1,
+                    SaleItemNumber = 16,
                     SaleCount = 1,
                     SaleProduct = _products.Find(p => p.ProductCode == "0003")
                 },
                  new SaleItem
                 {
-                    SaleItemNumber = 3,
+                    SaleItemNumber = 18,
                     SaleCount = 2,
                     SaleProduct = _products.Find(p => p.ProductCode == "0002")
                 }
@@ -67,17 +67,17 @@ namespace MyFirstProject.Infrastructre.Services
             {
                 new Sale
                 {
-                    SaleAmount=12,
+                    SaleAmount=46.50,
                     SaleDate=new DateTime(2011,05,26),
                     SaleNumber=1,
-                    SaleItem=_saleItems.FindAll(s=>s.SaleCount==1)
+                    SaleItem=_saleItems.FindAll(si=>si.SaleCount==1)
                 },
                                 new Sale
                 {
-                    SaleAmount=24,
+                    SaleAmount=74.30,
                     SaleDate=DateTime.Now,
                     SaleNumber=2,
-                    SaleItem=_saleItems.FindAll(s=>s.SaleCount==2)
+                    SaleItem=_saleItems.FindAll(si=>si.SaleCount==2)
                 }
             };
 
@@ -88,16 +88,83 @@ namespace MyFirstProject.Infrastructre.Services
             _products.Add(product);
         }
 
-        public void AddSale(Sale sale)
+        public void AddSale(string productCode, int productQuantity)
         {
-            _sales.Add(sale);
+            List<SaleItem> saleItems = new List<SaleItem>();
+            double amount = 0;
+            var product = _products.Where(p => p.ProductCode == productCode).FirstOrDefault();
+            var saleItem = new SaleItem();
+            var code = productCode;
+
+            saleItem.SaleCount = productQuantity; 
+            if (product.ProductQuantity < productQuantity)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("-----------Daxil etdiyiniz say qədər məhsul yoxdur------------");
+                Console.WriteLine("");
+            }
+            else
+            {
+                product.ProductQuantity -= productQuantity;
+                saleItem.SaleProduct = product;
+                int lastItemNo = 0; // son sale Item number tapmaq ucun
+                foreach (var item in _saleItems)
+                {
+                    if (lastItemNo<=item.SaleItemNumber)
+                    {
+                        lastItemNo = item.SaleItemNumber;
+                    }
+                }
+
+                saleItem.SaleItemNumber = lastItemNo+1;
+                _saleItems.Add(saleItem);
+                saleItems.Add(saleItem);
+                amount += productQuantity * saleItem.SaleProduct.ProductPrice;
+
+                int lastSaleNo = 0; // son sale number ucun
+                foreach (var item in _sales)
+                {
+                    if (lastSaleNo <= item.SaleNumber)
+                    {
+                        lastSaleNo = item.SaleNumber+1;
+                    }
+                }
+
+                var saleNo = _sales.Count + 1;
+                var saleDate = DateTime.Now;
+                var sale = new Sale();
+                sale.SaleNumber = saleNo;
+                sale.SaleAmount = amount;
+                sale.SaleDate = saleDate;
+                sale.SaleItem = saleItems;
+                _sales.Add(sale);
+
+
+                Console.WriteLine("");
+                Console.WriteLine("_____________ Yeni Satış əlavə edildi _____________");
+                Console.WriteLine("");
+            }
+            //saleItem.SaleProduct = product;
+            //saleItem.SaleItemNumber = saleItems.Count + 1;
+            //saleItems.Add(saleItem);
+            //amount += productQuantity * saleItem.SaleProduct.ProductPrice;
+            //var saleNo = _sales.Count + 1;
+            //var saleDate = DateTime.Now;
+            //var sale = new Sale();
+            //sale.SaleNumber = saleNo;
+            //sale.SaleAmount = amount;
+            //sale.SaleDate = saleDate;
+            //sale.SaleItem = saleItems;
+            //_sales.Add(sale);
+
+
         }
 
         public List<Product> ChangeProduct(string productCode)
         {
             return _products.FindAll(p => p.ProductCode == productCode).ToList();
         }
-
+            
       
 
         public void GetProductByCategoryName(CategoryType category)
@@ -117,9 +184,24 @@ namespace MyFirstProject.Infrastructre.Services
 
         }
 
-        public int RemoveProductBySale(int saleNumber, string productCode, int productQuantity)
+        // satilan mehsulun geri qaytarilmasi
+        public string RemoveProductBySale(int saleNumber, int saleItemNumber , int productQuantity) 
         {
-            throw new NotImplementedException();
+            return "ghj";
+
+            //   var sale=  _sales.FindAll(s=>s.SaleNumber==saleNumber).FirstOrDefault();
+            //   var saleItem = _saleItems.FindAll(s => s.SaleItemNumber == saleItemNumber).FirstOrDefault();
+            //if (sale == null || saleItem==null) 
+            //{
+            //    return "Satisda bele mehsul olmayib";
+            //}
+            //else
+            //{
+                
+            //    _saleItems.Remove(saleItem);
+            //    return "Mehsul geri qaytarildi";
+            //}
+             
         }
 
         public List<Product> GetProducts()

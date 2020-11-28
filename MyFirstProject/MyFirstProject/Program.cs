@@ -163,7 +163,7 @@ namespace MyFirstProject
                         ShowAddSale();
                         break;
                     case 2:
-                        Console.WriteLine("Get Product By Sale");
+                        RemoveProductBySale();
                         break;
                     case 3:
                         ShowRemoveSale();
@@ -295,7 +295,14 @@ namespace MyFirstProject
             Console.WriteLine("Mehsulun kodu daxil edin");
             product.ProductCode = Console.ReadLine();
 
+            Console.WriteLine("");
+            Console.WriteLine("-------------Məhsul əlave edildi--------------");
+            Console.WriteLine("");
+
+
             _marketableService.AddProduct(product);
+
+
             #endregion  
         }
 
@@ -583,28 +590,81 @@ namespace MyFirstProject
 
         static void ShowAddSale()
         {
-            Console.WriteLine("~~~~~~~~~~~~  Yeni satiş əlave et  ~~~~~~~~~~~~");
-           
-            #region Sale Number
-            Sale sale = new Sale();
             Console.WriteLine("");
+            Console.WriteLine("_____________ Yeni Satış əlavə edin _____________");
 
-            Console.WriteLine("Məhsulun nömrəsini daxil edin :");
+            Console.WriteLine("");
+            Console.Write("Məhsulun kodunu daxil edin:");
+            string productCode = Console.ReadLine();
+
+            Console.WriteLine("");
+            Console.Write("Sayini daxil edin:");
+            string productQuantityInput = Console.ReadLine();
+            int productQuantity;
+
+            while (!int.TryParse(productQuantityInput, out productQuantity))
+            {
+                Console.Write("Rəqəm daxil etməlisiniz!:");
+                productQuantityInput = Console.ReadLine();
+                Console.WriteLine("");
+            }
+            _marketableService.AddSale(productCode, productQuantity);
+
+
+            //Console.WriteLine("");
+            //Console.WriteLine("_____________ Yeni Satış əlavə edildi _____________");
+            //Console.WriteLine("");
+        }
+
+
+        static void RemoveProductBySale()
+        {
+            
+            Console.WriteLine("satisdan mehsulun geri qaytarilmasi");
+            Console.WriteLine("");
+            Console.WriteLine("satisin nomresi daxil edin");
             string saleNumberInput = Console.ReadLine();
             int saleNumber;
 
             while(!int.TryParse(saleNumberInput, out saleNumber))
             {
-                Console.WriteLine("Rəqəm daxil edin");
+                Console.WriteLine("Reqem daxil etmesliniz");
                 saleNumberInput = Console.ReadLine();
             }
-            sale.SaleNumber = saleNumber;
-            #endregion
 
 
-             
+
+
+            Console.WriteLine("Mehsulun nomresi daxil edin");
+            Console.WriteLine("");
+            string saleItemNumberInput = Console.ReadLine();
+            int saleItemNumber;
+
+            while (!int.TryParse(saleItemNumberInput, out saleItemNumber))
+            {
+                Console.WriteLine("Reqem daxil etmesliniz");
+                saleItemNumberInput = Console.ReadLine();
+            }
+
+            Console.WriteLine("satisdan geri qaytarilacaq mehsulun miqdari daxil edin");
+            Console.WriteLine("");
+            string productQuantityInput = Console.ReadLine();
+            int productQuantity;
+
+            while (!int.TryParse(productQuantityInput, out productQuantity))
+            {
+                Console.WriteLine("Reqem daxil etmesliniz");
+                productQuantityInput = Console.ReadLine();
+            }
+
+            _marketableService.RemoveProductBySale(saleNumber, saleItemNumber, productQuantity);
+
+            Console.WriteLine("");
+            Console.WriteLine(_marketableService.RemoveProductBySale(saleNumber, saleItemNumber, productQuantity));
+            Console.WriteLine("");
+
+
         }
-
 
         static void ShowRemoveSale()  /* olmasa*/
         {
@@ -631,10 +691,11 @@ namespace MyFirstProject
             int i = 1;
             foreach (var item in _marketableService.Sales)
             {
-                table.AddRow(i, item.SaleNumber, item.SaleAmount, item.SaleItem.Count, item.SaleDate.ToString("dd.MM.yyyy"));
+                table.AddRow(i, item.SaleNumber, item.SaleAmount.ToString("#.##"), item.SaleItem.Count, item.SaleDate.ToString("dd.MM.yyyy"));
                 i++;
             }
             table.Write();
+           
         }
 
         static void ShowSalesByDataRange()  /* olmasa*/
@@ -761,15 +822,34 @@ namespace MyFirstProject
 
             List<Sale> data = _marketableService.GetSalesByDate(Date);
 
-            foreach (var item in data)
+            if (data.Count==0)
             {
-                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                Console.WriteLine("Satişin Nömrəsi: " + item.SaleNumber);
-                Console.WriteLine("Satişin Qiyməti: " + item.SaleAmount);
-                Console.WriteLine("Satişin Sayı: " + item.SaleItem.Count);
-                Console.WriteLine("Satişin Tarixi: " + item.SaleDate.ToString("dd.MM.yyyy"));
-                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                Console.WriteLine("");
+                Console.WriteLine("Bu tarixde satiş olmayib ");
+                Console.WriteLine("");
             }
+            else
+            {
+                foreach (var item in data)
+                {
+                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    Console.WriteLine("Satişin Nömrəsi: " + item.SaleNumber);
+                    Console.WriteLine("Satişin Qiyməti: " + item.SaleAmount);
+                    Console.WriteLine("Satişin Sayı: " + item.SaleItem.Count);
+                    Console.WriteLine("Satişin Tarixi: " + item.SaleDate.ToString("dd.MM.yyyy"));
+                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                }
+            }
+
+            //foreach (var item in data)
+            //{
+            //    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            //    Console.WriteLine("Satişin Nömrəsi: " + item.SaleNumber);
+            //    Console.WriteLine("Satişin Qiyməti: " + item.SaleAmount);
+            //    Console.WriteLine("Satişin Sayı: " + item.SaleItem.Count);
+            //    Console.WriteLine("Satişin Tarixi: " + item.SaleDate.ToString("dd.MM.yyyy"));
+            //    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            //}
 
         }
 

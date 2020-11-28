@@ -13,15 +13,18 @@ namespace MyFirstProject.Infrastructre.Interfaces
       List<Product> Products { get; }
       List<SaleItem> SaleItems { get; }
 
-
-      void AddSale(Sale sale);
+        #region Sale Methods
+      void AddSale(string productCode, int productQuantity);
       void RemoveSale(int saleNumber);
-      int  RemoveProductBySale(int saleNumber, string productCode, int productQuantity);
+      string  RemoveProductBySale(int saleNumber, int saleItemNumber, int productQuantity);
       List<Sale> GetSales();
       List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate);
       List<Sale> GetSalesByDate(DateTime Date);
       List<Sale> GetSalesByAmountRange(double stratAmount, double endAmount);
       List<Sale> GetSalesBySaleNumber(int saleNumber);
+        #endregion
+
+      #region Product Methods
       void AddProduct(Product product);
       List<Product> ChangeProduct(string productCode);
       List<Product> GetProducts();
@@ -30,6 +33,6 @@ namespace MyFirstProject.Infrastructre.Interfaces
       List<Product> GetSearchByProductName(string productName);
       void RemoveProduct(string ProductCode);
       List<SaleItem> ShowSaleItem(int saleNumber);
-
+        #endregion
     }
 }
