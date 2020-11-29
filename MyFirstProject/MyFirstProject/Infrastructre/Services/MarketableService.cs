@@ -32,7 +32,7 @@ namespace MyFirstProject.Infrastructre.Services
                     ProductName = "Tissot",
                     ProductQuantity = 2,
                     ProductPrice = 200,
-                    ProductCode = "0002",
+                    ProductCode = "AAA",
                     Category = CategoryType.Saat
                 },
 
@@ -41,7 +41,7 @@ namespace MyFirstProject.Infrastructre.Services
                     ProductName = "SmartTVSamsung",
                     ProductQuantity = 1,
                     ProductPrice = 800,
-                    ProductCode = "0003",
+                    ProductCode = "BBB",
                     Category = CategoryType.Televizor
 
                 }
@@ -52,15 +52,15 @@ namespace MyFirstProject.Infrastructre.Services
             {
                 new SaleItem
                 {
-                    SaleItemNumber = 16,
+                    SaleItemNumber = 1,
                     SaleCount = 1,
-                    SaleProduct = _products.Find(p => p.ProductCode == "0003")
+                    SaleProduct = _products.Find(p => p.ProductCode == "AAA")
                 },
                  new SaleItem
                 {
-                    SaleItemNumber = 18,
+                    SaleItemNumber = 2,
                     SaleCount = 2,
-                    SaleProduct = _products.Find(p => p.ProductCode == "0002")
+                    SaleProduct = _products.Find(p => p.ProductCode == "BBB")
                 }
             };
             _sales = new List<Sale>()
@@ -72,7 +72,7 @@ namespace MyFirstProject.Infrastructre.Services
                     SaleNumber=1,
                     SaleItem=_saleItems.FindAll(si=>si.SaleCount==1)
                 },
-                                new Sale
+                new Sale
                 {
                     SaleAmount=74.30,
                     SaleDate=DateTime.Now,
@@ -107,29 +107,9 @@ namespace MyFirstProject.Infrastructre.Services
             {
                 product.ProductQuantity -= productQuantity;
                 saleItem.SaleProduct = product;
-                int lastItemNo = 0; // son sale Item number tapmaq ucun
-                foreach (var item in _saleItems)
-                {
-                    if (lastItemNo<=item.SaleItemNumber)
-                    {
-                        lastItemNo = item.SaleItemNumber;
-                    }
-                }
-
-                saleItem.SaleItemNumber = lastItemNo+1;
-                _saleItems.Add(saleItem);
+                saleItem.SaleItemNumber = saleItems.Count + 1;
                 saleItems.Add(saleItem);
                 amount += productQuantity * saleItem.SaleProduct.ProductPrice;
-
-                int lastSaleNo = 0; // son sale number ucun
-                foreach (var item in _sales)
-                {
-                    if (lastSaleNo <= item.SaleNumber)
-                    {
-                        lastSaleNo = item.SaleNumber+1;
-                    }
-                }
-
                 var saleNo = _sales.Count + 1;
                 var saleDate = DateTime.Now;
                 var sale = new Sale();
@@ -139,24 +119,10 @@ namespace MyFirstProject.Infrastructre.Services
                 sale.SaleItem = saleItems;
                 _sales.Add(sale);
 
-
                 Console.WriteLine("");
                 Console.WriteLine("_____________ Yeni Satış əlavə edildi _____________");
                 Console.WriteLine("");
             }
-            //saleItem.SaleProduct = product;
-            //saleItem.SaleItemNumber = saleItems.Count + 1;
-            //saleItems.Add(saleItem);
-            //amount += productQuantity * saleItem.SaleProduct.ProductPrice;
-            //var saleNo = _sales.Count + 1;
-            //var saleDate = DateTime.Now;
-            //var sale = new Sale();
-            //sale.SaleNumber = saleNo;
-            //sale.SaleAmount = amount;
-            //sale.SaleDate = saleDate;
-            //sale.SaleItem = saleItems;
-            //_sales.Add(sale);
-
 
         }
 
@@ -185,23 +151,32 @@ namespace MyFirstProject.Infrastructre.Services
         }
 
         // satilan mehsulun geri qaytarilmasi
-        public string RemoveProductBySale(int saleNumber, int saleItemNumber , int productQuantity) 
+        public double RemoveProductBySale(int saleNumber, string productCode, int quantity) 
         {
-            return "ghj";
+            double amount = 0;
+            var prolist = _products.ToList();
+            var salelist = _sales.ToList();
 
-            //   var sale=  _sales.FindAll(s=>s.SaleNumber==saleNumber).FirstOrDefault();
-            //   var saleItem = _saleItems.FindAll(s => s.SaleItemNumber == saleItemNumber).FirstOrDefault();
-            //if (sale == null || saleItem==null) 
-            //{
-            //    return "Satisda bele mehsul olmayib";
-            //}
-            //else
-            //{
-                
-            //    _saleItems.Remove(saleItem);
-            //    return "Mehsul geri qaytarildi";
-            //}
-             
+
+            var sale = salelist.Find(r => r.SaleNumber == saleNumber);
+
+
+            bool findproduct = prolist.Exists(r => r.ProductCode == productCode);
+            if (findproduct == true)
+            {
+                var list = prolist.Find(r => r.ProductCode == productCode);
+                if (sale.SaleAmount > list.ProductPrice * quantity)
+                {
+                    sale.SaleAmount -= list.ProductPrice * quantity;
+
+                }
+                else if ((sale.SaleAmount == list.ProductPrice * quantity))
+                {
+                    _sales.Remove(sale);
+                }
+            }
+            return amount;
+
         }
 
         public List<Product> GetProducts()

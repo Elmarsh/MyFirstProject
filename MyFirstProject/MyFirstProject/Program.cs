@@ -60,6 +60,7 @@ namespace MyFirstProject
             } while (selectInt != 0);
         }
 
+
         static void ShowProductsMenu()
         {
             int selectInt1;
@@ -127,6 +128,7 @@ namespace MyFirstProject
 
         }
 
+
         static void ShowSalesMenu()
         {
             int selectInt2;
@@ -193,6 +195,9 @@ namespace MyFirstProject
 
             } while (selectInt2 != 0);
         }
+
+
+
         #region Product Methods
         static void ShowProductAdd()
         {
@@ -317,6 +322,7 @@ namespace MyFirstProject
             #region Product Code
             Console.WriteLine("Kodu daxil et");
             string code = Console.ReadLine();
+
             #endregion 
 
             List<Product> ProductChangeCode = _marketableService.ChangeProduct(code);
@@ -587,7 +593,7 @@ namespace MyFirstProject
         #endregion
 
 
-
+        #region Sale Methods
         static void ShowAddSale()
         {
             Console.WriteLine("");
@@ -619,10 +625,10 @@ namespace MyFirstProject
 
         static void RemoveProductBySale()
         {
-            
+            #region Sale Number
             Console.WriteLine("satisdan mehsulun geri qaytarilmasi");
             Console.WriteLine("");
-            Console.WriteLine("satisin nomresi daxil edin");
+            Console.WriteLine("Satişin nomrəsi daxil edin: ");
             string saleNumberInput = Console.ReadLine();
             int saleNumber;
 
@@ -631,37 +637,30 @@ namespace MyFirstProject
                 Console.WriteLine("Reqem daxil etmesliniz");
                 saleNumberInput = Console.ReadLine();
             }
+            #endregion
 
-
-
-
-            Console.WriteLine("Mehsulun nomresi daxil edin");
+            #region Quantity
             Console.WriteLine("");
-            string saleItemNumberInput = Console.ReadLine();
-            int saleItemNumber;
+            Console.WriteLine("Satişin miqdari daxil edin: ");
+            string quantityInput = Console.ReadLine();
+            int quantity;
 
-            while (!int.TryParse(saleItemNumberInput, out saleItemNumber))
+            while (!int.TryParse(quantityInput, out quantity))
             {
-                Console.WriteLine("Reqem daxil etmesliniz");
-                saleItemNumberInput = Console.ReadLine();
+                Console.WriteLine("");
+                Console.WriteLine("Rəqəm daxil etməsliniz! ");
+                quantityInput = Console.ReadLine();
             }
+            #endregion
 
-            Console.WriteLine("satisdan geri qaytarilacaq mehsulun miqdari daxil edin");
+            #region Sale product Code
             Console.WriteLine("");
-            string productQuantityInput = Console.ReadLine();
-            int productQuantity;
+            Console.WriteLine("Satiş məhsulu kodu daxil edin! "); 
+            string productCode = Console.ReadLine();
+            _marketableService.RemoveProductBySale(saleNumber, productCode, quantity);
 
-            while (!int.TryParse(productQuantityInput, out productQuantity))
-            {
-                Console.WriteLine("Reqem daxil etmesliniz");
-                productQuantityInput = Console.ReadLine();
-            }
+            #endregion
 
-            _marketableService.RemoveProductBySale(saleNumber, saleItemNumber, productQuantity);
-
-            Console.WriteLine("");
-            Console.WriteLine(_marketableService.RemoveProductBySale(saleNumber, saleItemNumber, productQuantity));
-            Console.WriteLine("");
 
 
         }
@@ -793,15 +792,7 @@ namespace MyFirstProject
             }
             table.Write();
 
-            //foreach (var item in result)
-            //{
-            //    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            //    Console.WriteLine("Satişin Nömrəsi: " + item.SaleNumber);
-            //    Console.WriteLine("Satişin Qiyməti: " + item.SaleAmount);
-            //    Console.WriteLine("Satişin Sayı: " + item.SaleItem.Count);
-            //    Console.WriteLine("Satişin Tarixi: " + item.SaleDate.ToString("dd.MM.yyyy"));
-            //    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            //}
+            
             #endregion
         }
 
@@ -832,6 +823,8 @@ namespace MyFirstProject
             {
                 foreach (var item in data)
                 {
+
+
                     Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     Console.WriteLine("Satişin Nömrəsi: " + item.SaleNumber);
                     Console.WriteLine("Satişin Qiyməti: " + item.SaleAmount);
@@ -841,21 +834,13 @@ namespace MyFirstProject
                 }
             }
 
-            //foreach (var item in data)
-            //{
-            //    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            //    Console.WriteLine("Satişin Nömrəsi: " + item.SaleNumber);
-            //    Console.WriteLine("Satişin Qiyməti: " + item.SaleAmount);
-            //    Console.WriteLine("Satişin Sayı: " + item.SaleItem.Count);
-            //    Console.WriteLine("Satişin Tarixi: " + item.SaleDate.ToString("dd.MM.yyyy"));
-            //    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            //}
+           
 
         }
 
         static void ShowSalesBySaleNumber()    /*olmasa*/
         {
-            Console.WriteLine("~~~~~~~~~~ Satiş nömreəsine göre satişi görmek ~~~~~~~~~~ ");
+            Console.WriteLine("~~~~~~~~~~ Satiş nömrəsine göre satişi görmek ~~~~~~~~~~ ");
             Console.WriteLine("");
 
             Console.WriteLine("");
@@ -874,6 +859,7 @@ namespace MyFirstProject
             Console.WriteLine("");
             List<Sale> sales = _marketableService.GetSalesBySaleNumber(saleNumber);
 
+                       
             foreach (var item in sales)
             {
                 Console.WriteLine("_____________________________");
@@ -890,7 +876,7 @@ namespace MyFirstProject
             }
         }
 
-
+        #endregion
 
 
 

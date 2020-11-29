@@ -16,7 +16,7 @@ namespace MyFirstProject.Infrastructre.Interfaces
         #region Sale Methods
       void AddSale(string productCode, int productQuantity);
       void RemoveSale(int saleNumber);
-      string  RemoveProductBySale(int saleNumber, int saleItemNumber, int productQuantity);
+      double  RemoveProductBySale(int saleNumber, string productCode , int quantity);
       List<Sale> GetSales();
       List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate);
       List<Sale> GetSalesByDate(DateTime Date);
