@@ -44,7 +44,8 @@ namespace MyFirstProject.Infrastructre.Services
                     ProductCode = "BBB",
                     Category = CategoryType.Televizor
 
-                }
+                },
+
             };
 
 
@@ -96,33 +97,45 @@ namespace MyFirstProject.Infrastructre.Services
             var saleItem = new SaleItem();
             var code = productCode;
 
-            saleItem.SaleCount = productQuantity; 
-            if (product.ProductQuantity < productQuantity)
+            bool check = _products.Exists(p => p.ProductCode == productCode);
+            if (check == false)
             {
                 Console.WriteLine("");
-                Console.WriteLine("-----------Daxil etdiyiniz say qədər məhsul yoxdur------------");
+                Console.WriteLine("_____________ Daxil etdiyiniz koda görə məhsul tapılmadı _____________");
                 Console.WriteLine("");
             }
             else
             {
-                product.ProductQuantity -= productQuantity;
-                saleItem.SaleProduct = product;
-                saleItem.SaleItemNumber = saleItems.Count + 1;
-                saleItems.Add(saleItem);
-                amount += productQuantity * saleItem.SaleProduct.ProductPrice;
-                var saleNo = _sales.Count + 1;
-                var saleDate = DateTime.Now;
-                var sale = new Sale();
-                sale.SaleNumber = saleNo;
-                sale.SaleAmount = amount;
-                sale.SaleDate = saleDate;
-                sale.SaleItem = saleItems;
-                _sales.Add(sale);
+                saleItem.SaleCount = productQuantity;
+                if (product.ProductQuantity < productQuantity)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("_____________ Daxil etdiyiniz miqdarda məhsul yoxdur _____________");
+                    Console.WriteLine("");
+                }
+                else
+                {
+                    product.ProductQuantity -= productQuantity;
+                    saleItem.SaleProduct = product;
+                    saleItem.SaleItemNumber = saleItems.Count + 1;
+                    saleItems.Add(saleItem);
+                    amount += productQuantity * saleItem.SaleProduct.ProductPrice;
 
-                Console.WriteLine("");
-                Console.WriteLine("_____________ Yeni Satış əlavə edildi _____________");
-                Console.WriteLine("");
-            }
+                    var saleNumber = _sales.Count + 1;
+                    var saleDate = DateTime.Now;
+                    var sale = new Sale();
+
+                    sale.SaleNumber = saleNumber;
+                    sale.SaleAmount = amount;
+                    sale.SaleDate = saleDate;
+
+                    _sales.Add(sale);
+
+                    Console.WriteLine("");
+                    Console.WriteLine("-------------- Yeni Satış əlavə edildi --------------");
+                    Console.WriteLine("");
+                }
+            } 
 
         }
 
@@ -137,16 +150,33 @@ namespace MyFirstProject.Infrastructre.Services
         {
 
             List<Product> list = _products.FindAll(p => p.Category ==category).ToList();
-
-
-            var table = new ConsoleTable("No", "Kategoriya", "Mehsul", "Sayi", "Qiymeti", "Mehsul kodu");
-            int i = 1;
-            foreach (var item in list)
+            if (list.Count == 0)
             {
-                table.AddRow(i, item.Category, item.ProductName, item.ProductQuantity, item.ProductPrice, item.ProductCode);
-                i++;
+                Console.WriteLine("");
+                Console.WriteLine("____________Bu kategoriyada məhsul yoxdur____________ ");
+                Console.WriteLine("");
             }
-            table.Write();
+            else
+            {
+
+                var table = new ConsoleTable("No", "Kategoriya", "Mehsul", "Sayi", "Qiymeti", "Mehsul kodu");
+                int i = 1;
+                foreach (var item in list)
+                {
+                    table.AddRow(i, item.Category, item.ProductName, item.ProductQuantity, item.ProductPrice, item.ProductCode);
+                    i++;
+                }
+                table.Write();
+            }
+
+            //var table = new ConsoleTable("No", "Kategoriya", "Mehsul", "Sayi", "Qiymeti", "Mehsul kodu");
+            //int i = 1;
+            //foreach (var item in list)
+            //{
+            //    table.AddRow(i, item.Category, item.ProductName, item.ProductQuantity, item.ProductPrice, item.ProductCode);
+            //    i++;
+            //}
+            //table.Write();
 
         }
 
@@ -159,7 +189,7 @@ namespace MyFirstProject.Infrastructre.Services
 
 
             var sale = salelist.Find(r => r.SaleNumber == saleNumber);
-
+             
 
             bool findproduct = prolist.Exists(r => r.ProductCode == productCode);
             if (findproduct == true)
@@ -186,7 +216,7 @@ namespace MyFirstProject.Infrastructre.Services
 
         public List<Sale> GetSales()
         {
-            throw new NotImplementedException();
+            return _sales;
         }
         
         public List<Sale> GetSalesByAmountRange(double startAmount, double endAmount)
@@ -227,6 +257,7 @@ namespace MyFirstProject.Infrastructre.Services
 
         public void RemoveProduct(string productCode)
         {
+
             var resultlist = _products.ToList();
             var itemRemove = resultlist.Single(r => r.ProductCode == productCode);
             _products.Remove(itemRemove);
@@ -236,6 +267,7 @@ namespace MyFirstProject.Infrastructre.Services
         {
            Sale sale= _sales.Find(s => s.SaleNumber == saleNumber);
             _sales.Remove(sale);
+            
         }
 
         public List<SaleItem> ShowSaleItem(int saleNumber)
