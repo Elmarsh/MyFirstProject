@@ -22,9 +22,10 @@ namespace MyFirstProject.Infrastructre.Interfaces
       List<Sale> GetSalesByDate(DateTime Date);
       List<Sale> GetSalesByAmountRange(double stratAmount, double endAmount);
       List<Sale> GetSalesBySaleNumber(int saleNumber);
+      List<SaleItem> ShowSaleItem(int saleNumber);
         #endregion
 
-      #region Product Methods
+        #region Product Methods
       void AddProduct(Product product);
       List<Product> ChangeProduct(string productCode);
       List<Product> GetProducts();
@@ -32,7 +33,7 @@ namespace MyFirstProject.Infrastructre.Interfaces
       List<Product> GetProductByAmountRange(double starAmount, double endAmount);
       List<Product> GetSearchByProductName(string productName);
       void RemoveProduct(string ProductCode);
-      List<SaleItem> ShowSaleItem(int saleNumber);
+
         #endregion
     }
 }

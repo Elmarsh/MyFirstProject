@@ -91,6 +91,7 @@ namespace MyFirstProject.Infrastructre.Services
 
         public void AddSale(string productCode, int productQuantity)
         {
+            //qarşi terefin gonderdiyi satiş nomresi ve mehsulun kodu, məhsulun kodu ve Məhsulun sayina  beraberdirse satiş əlavə edir.
             List<SaleItem> saleItems = new List<SaleItem>();
             double amount = 0;
             var product = _products.Where(p => p.ProductCode == productCode).FirstOrDefault();
@@ -138,14 +139,14 @@ namespace MyFirstProject.Infrastructre.Services
             } 
 
         }
-
+        //Məhsul uzerinde koda göre dəyishiklik etmək:  məhsulun kodu daxil olan koda bərabərdirse, sayini, qiymetini, adini, kategoriyasi dəyişmək    
         public List<Product> ChangeProduct(string productCode)
         {
             return _products.FindAll(p => p.ProductCode == productCode).ToList();
         }
             
       
-
+        // kategoriyaya görə məhsulu tapmaq:  məhsulun kategoriyasi daxil olan kategoriyaya beraberdirse, Həmin məhsulu bize verir.
         public void GetProductByCategoryName(CategoryType category)
         {
 
@@ -169,18 +170,11 @@ namespace MyFirstProject.Infrastructre.Services
                 table.Write();
             }
 
-            //var table = new ConsoleTable("No", "Kategoriya", "Mehsul", "Sayi", "Qiymeti", "Mehsul kodu");
-            //int i = 1;
-            //foreach (var item in list)
-            //{
-            //    table.AddRow(i, item.Category, item.ProductName, item.ProductQuantity, item.ProductPrice, item.ProductCode);
-            //    i++;
-            //}
-            //table.Write();
+           
 
         }
 
-        // satilan mehsulun geri qaytarilmasi
+        // satilan mehsulun geri qaytarilmasi: qarshi terefden satişin nömrəsi, məhsulun kodu, satişin kodu istəyirik.
         public double RemoveProductBySale(int saleNumber, string productCode, int quantity) 
         {
             double amount = 0;
@@ -209,27 +203,32 @@ namespace MyFirstProject.Infrastructre.Services
 
         }
 
+        //Məhsullarin listi qaytarmaqcun. 
         public List<Product> GetProducts()
         {
             return _products;
         }
 
+        //Satişlarin listi qayatrmaqcun.
         public List<Sale> GetSales()
         {
             return _sales;
         }
         
+        // 2 qiymet araliginda olan satişlari isteyirik.
         public List<Sale> GetSalesByAmountRange(double startAmount, double endAmount)
         {
             return _sales.FindAll(s => s.SaleAmount > startAmount && s.SaleAmount < endAmount).ToList();
            
         }
 
+        // Hər hansi bir tarixdə satiş olub olmadigi görməkcun.
         public List<Sale> GetSalesByDate(DateTime Date)
         {
            return _sales.Where(s => s.SaleDate == Date).ToList();
         }
 
+        // 2 tarix araliginda olan satişlari isteyirik.
         public List<Sale> GetSalesByDateRange(DateTime startDate, DateTime endDate)
         {
             return _sales.Where(s => s.SaleDate > startDate && s.SaleDate < endDate).ToList();
@@ -237,39 +236,79 @@ namespace MyFirstProject.Infrastructre.Services
 
         }
 
+        // Satişin nömrəsine görə satişlari gorməkcun: qarşi tərəf satiş nömrəsi daxil edərək həmin nömrəyə aid satiş olub-olmadigi görməkcun.
         public List<Sale> GetSalesBySaleNumber(int saleNumber)
         {
            return _sales.Where(s => s.SaleNumber == saleNumber).ToList();
         }
 
+        //Məhsullar arsinda ada görə axtariş: Məhsulun adı daxil edərək, həmin məhsulun (qiyməti, kategoriyasi, sayi ve məhsulun kodu) göstərməkcun   
         public List<Product> GetSearchByProductName(string productName)
         {
-
              return _products.FindAll(p => p.ProductName.Contains(productName)).ToList();
-           
         }
 
-      
+         // 2 qiymet araliginda olan məhsullari isteyirik: 
         public List<Product> GetProductByAmountRange(double starAmount, double endAmount)
         {
             return _products.FindAll(p => p.ProductPrice > starAmount && p.ProductPrice < endAmount).ToList();
         }
 
+        // Məhsulun koduna görə həmin məhsulu silməkcun.
         public void RemoveProduct(string productCode)
         {
-
             var resultlist = _products.ToList();
-            var itemRemove = resultlist.Single(r => r.ProductCode == productCode);
-            _products.Remove(itemRemove);
+
+            bool check = _products.Exists(p => p.ProductCode == productCode);
+
+            if (check == false)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("_____Bu koda görə məhsul tapılmadı!_____");
+            }
+            else
+            {
+                var itemToRemove = resultlist.Single(r => r.ProductCode == productCode);
+
+                _products.Remove(itemToRemove);
+
+                Console.WriteLine("");
+                Console.WriteLine("___________ Məhsul silindi ___________");
+                Console.WriteLine("");
+                
+            }
+
+          
         }
 
+        // Hər hansi bir satişi nömrəsinə görə silmək.
         public void RemoveSale(int saleNumber)
         {
-           Sale sale= _sales.Find(s => s.SaleNumber == saleNumber);
-            _sales.Remove(sale);
-            
+            var resultlist = _sales.ToList(); ;
+
+            bool check = _sales.Exists(s => s.SaleNumber == saleNumber);
+
+            if (check == false)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("_____Bu nömrəyə görə satiş tapılmadı!_____");
+                Console.WriteLine("");
+            }
+            else
+            {
+                var itemToRemove = resultlist.Single(r => r.SaleNumber == saleNumber);
+
+                _sales.Remove(itemToRemove);
+
+                Console.WriteLine("");
+                Console.WriteLine("___________ Satiş silindi ___________");
+                Console.WriteLine("");
+
+            }
+          
         }
 
+        // Verilmis nomreye esasen hemin nomreli satisin melumatlarinin gosterilmesi - userden qebul edilmis nomdereye esasen hemin nomreli satisin melumatlarinin gosterilmesi (nomresi,meblegi,mehsul sayi,tarixi, satis itemlari (nomresi,mehsul adi,sayi))
         public List<SaleItem> ShowSaleItem(int saleNumber)
         {
             return _sales.Find(s => s.SaleNumber == saleNumber).SaleItem.ToList();
